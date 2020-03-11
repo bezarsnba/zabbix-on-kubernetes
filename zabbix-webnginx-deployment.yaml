@@ -1,0 +1,148 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  creationTimestamp: null
+  labels:
+    zabbix-app: zabbix-server
+  name: zabbix-web-nginx-mysql
+spec:
+  selector:
+    matchLabels:
+      zabbix-app: zabbix-server
+  serviceName: "zabbix-web-nginx-mysql"
+  replicas: 1
+  #strategy:
+  #  type: Recreate
+  template:
+    metadata:
+      labels:
+        zabbix-app: zabbix-server
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_DATABASE
+              name: zabbix-app
+              
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: zabbix-app
+
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_PASSWORD
+              name: zabbix-app
+
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: zabbix-app
+        - name: ZBX_SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: ZBX_SERVER_HOST
+              name: zabbix-app
+        - name: ZBX_SERVER_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: ZBX_SERVER_NAME
+              name: zabbix-app
+        image: zabbix/zabbix-web-nginx-mysql:ubuntu-4.4-latest
+        livenessProbe:
+          exec:
+            command:
+            - curl
+            - -f
+            - http://localhost
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        name: zabbix-web-nginx-mysql
+        ports:
+        - containerPort: 80
+#        - containerPort: 443
+        resources: {}
+#        volumeMounts:
+#        - mountPath: /etc/localtime
+#          name: zabbix-web-nginx-mysql-claim0
+#          readOnly: true
+#        - mountPath: /etc/timezone
+#          name: zabbix-web-nginx-mysql-claim1
+#          readOnly: true
+#      restartPolicy: Always
+#      volumes:
+#      - name: zabbix-web-nginx-mysql-claim0
+#        persistentVolumeClaim:
+#          claimName: zabbix-web-nginx-mysql-claim0
+#          readOnly: true
+#      - name: zabbix-web-nginx-mysql-claim1
+#        persistentVolumeClaim:
+#          claimName: zabbix-web-nginx-mysql-claim1
+#          readOnly: true
+#status: {}
+#
+### Service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  creationTimestamp: null
+  labels:
+    zabbix-app: zabbix-server
+  name: zabbix-web-nginx-mysql
+spec:
+  ports:
+  - name: "8081"
+    port: 8081
+    targetPort: 80
+  - name: "8443"
+    port: 8443
+    targetPort: 443
+  selector:
+    zabbix-app: zabbix-server
+status:
+  loadBalancer: {}
+
+### Persistent Volume Clain1
+---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   creationTimestamp: null
+#   labels:
+#     zabbix-app: zabbix-server-claim0
+#   name: zabbix-web-nginx-mysql-claim0
+# spec:
+#   accessModes:
+#   - ReadOnlyMany
+#   resources:
+#     requests:
+#       storage: 100Mi
+# status: {}
+# 
+# ### PersistentVolumeClain2
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   creationTimestamp: null
+#   labels:
+#     zabbix-app: zabbix-server-claim1
+#   name: zabbix-web-nginx-mysql-claim1
+# spec:
+#   accessModes:
+#   - ReadOnlyMany
+#   resources:
+#     requests:
+#       storage: 100Mi
+# status: {}
+# 

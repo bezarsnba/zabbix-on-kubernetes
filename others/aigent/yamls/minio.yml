@@ -1,0 +1,114 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: minio-pv-volume
+  namespace: aigent
+  labels:
+    type: local
+    app: minio
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /tmp/pv-minio/
+
+---    
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: minio-pv-claim
+  namespace: aigent
+  labels:
+    app: minio
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+      
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: aigent
+spec:
+  selector:
+    matchLabels:
+      app: minio 
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: minio-pv-claim
+      containers:
+      - name: minio
+        volumeMounts:
+        - name: data 
+          mountPath: "/data"
+        image: minio/minio:RELEASE.2020-01-03T19-12-21Z
+        args:
+        - server
+        - /data
+        env:
+        - name: MINIO_ACCESS_KEY
+          value: "minio"
+        - name: MINIO_SECRET_KEY
+          value: "minio123"
+        ports:
+        - containerPort: 9000
+        readinessProbe:
+          httpGet:
+            path: /minio/health/ready
+            port: 9000
+          initialDelaySeconds: 120
+          periodSeconds: 20
+        livenessProbe:
+          httpGet:
+            path: /minio/health/live
+            port: 9000
+          initialDelaySeconds: 120
+          periodSeconds: 20
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-svc
+  namespace: aigent
+spec:
+  ports:
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
+  selector:
+    app: minio
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: minio-aigent
+  namespace: aigent
+spec:
+  rules:
+  - host: minio-aigent.lab.br
+    http:
+      paths:      
+      - path: /
+        backend:
+          serviceName: minio-svc
+          servicePort: 9000

@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.20.0 (f3d54d784)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db-data-mysql
+  name: db-data-mysql
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.20.0 (f3d54d784)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: db-data-mysql
+    spec:
+      containers:
+      - image: busybox
+        name: db-data-mysql
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: db-data-mysql-claim0
+      restartPolicy: Always
+      volumes:
+      - name: db-data-mysql-claim0
+        persistentVolumeClaim:
+          claimName: db-data-mysql-claim0
+status: {}

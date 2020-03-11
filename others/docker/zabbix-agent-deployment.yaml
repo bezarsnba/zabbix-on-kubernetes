@@ -1,0 +1,86 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    com.zabbix.company: Zabbix LLC
+    com.zabbix.component: zabbix-agentd
+    com.zabbix.description: Zabbix agent
+    com.zabbix.os: alpine
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.20.0 (f3d54d784)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: zabbix-agent
+  name: zabbix-agent
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        com.zabbix.company: Zabbix LLC
+        com.zabbix.component: zabbix-agentd
+        com.zabbix.description: Zabbix agent
+        com.zabbix.os: alpine
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.20.0 (f3d54d784)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/zbx_net_backend: "true"
+        io.kompose.service: zabbix-agent
+    spec:
+      containers:
+      - image: zabbix/zabbix-agent:alpine-4.4-latest
+        name: zabbix-agent
+        ports:
+        - containerPort: 10050
+        resources: {}
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /etc/localtime
+          name: zabbix-agent-claim0
+          readOnly: true
+        - mountPath: /etc/timezone
+          name: zabbix-agent-claim1
+          readOnly: true
+        - mountPath: /etc/zabbix/zabbix_agentd.d
+          name: zabbix-agent-claim2
+          readOnly: true
+        - mountPath: /var/lib/zabbix/modules
+          name: zabbix-agent-claim3
+          readOnly: true
+        - mountPath: /var/lib/zabbix/enc
+          name: zabbix-agent-claim4
+          readOnly: true
+        - mountPath: /var/lib/zabbix/ssh_keys
+          name: zabbix-agent-claim5
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: zabbix-agent-claim0
+        persistentVolumeClaim:
+          claimName: zabbix-agent-claim0
+          readOnly: true
+      - name: zabbix-agent-claim1
+        persistentVolumeClaim:
+          claimName: zabbix-agent-claim1
+          readOnly: true
+      - name: zabbix-agent-claim2
+        persistentVolumeClaim:
+          claimName: zabbix-agent-claim2
+          readOnly: true
+      - name: zabbix-agent-claim3
+        persistentVolumeClaim:
+          claimName: zabbix-agent-claim3
+          readOnly: true
+      - name: zabbix-agent-claim4
+        persistentVolumeClaim:
+          claimName: zabbix-agent-claim4
+          readOnly: true
+      - name: zabbix-agent-claim5
+        persistentVolumeClaim:
+          claimName: zabbix-agent-claim5
+          readOnly: true
+status: {}

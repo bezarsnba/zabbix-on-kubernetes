@@ -1,0 +1,168 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    com.zabbix.company: Zabbix LLC
+    com.zabbix.component: zabbix-server
+    com.zabbix.dbtype: mysql
+    com.zabbix.description: Zabbix server with MySQL database support
+    com.zabbix.os: alpine
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.20.0 (f3d54d784)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: zabbix-server
+  name: zabbix-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        com.zabbix.company: Zabbix LLC
+        com.zabbix.component: zabbix-server
+        com.zabbix.dbtype: mysql
+        com.zabbix.description: Zabbix server with MySQL database support
+        com.zabbix.os: alpine
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.20.0 (f3d54d784)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/zbx_net_backend: "true"
+        io.kompose.network/zbx_net_frontend: "true"
+        io.kompose.service: zabbix-server
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_DATABASE
+              name: zabbix-server-env_db_mysql
+        - name: MYSQL_PASSWORD_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_PASSWORD_FILE
+              name: zabbix-server-env_db_mysql
+        - name: MYSQL_ROOT_PASSWORD_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_ROOT_PASSWORD_FILE
+              name: zabbix-server-env_db_mysql
+        - name: MYSQL_USER_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_USER_FILE
+              name: zabbix-server-env_db_mysql
+        - name: ZBX_ENABLE_SNMP_TRAPS
+          valueFrom:
+            configMapKeyRef:
+              key: ZBX_ENABLE_SNMP_TRAPS
+              name: zabbix-server-env_srv
+        - name: ZBX_JAVAGATEWAY_ENABLE
+          valueFrom:
+            configMapKeyRef:
+              key: ZBX_JAVAGATEWAY_ENABLE
+              name: zabbix-server-env_srv
+        - name: ZBX_STARTJAVAPOLLERS
+          valueFrom:
+            configMapKeyRef:
+              key: ZBX_STARTJAVAPOLLERS
+              name: zabbix-server-env_srv
+        image: zabbix/zabbix-server-mysql:alpine-4.4-latest
+        name: zabbix-server
+        ports:
+        - containerPort: 10051
+        resources: {}
+        volumeMounts:
+        - mountPath: /run/secrets/MYSQL_USER
+          name: MYSQL_USER
+        - mountPath: /run/secrets/MYSQL_PASSWORD
+          name: MYSQL_PASSWORD
+        - mountPath: /run/secrets/MYSQL_ROOT_PASSWORD
+          name: MYSQL_ROOT_PASSWORD
+        - mountPath: /etc/localtime
+          name: zabbix-server-claim0
+          readOnly: true
+        - mountPath: /etc/timezone
+          name: zabbix-server-claim1
+          readOnly: true
+        - mountPath: /usr/lib/zabbix/alertscripts
+          name: zabbix-server-claim2
+          readOnly: true
+        - mountPath: /usr/lib/zabbix/externalscripts
+          name: zabbix-server-claim3
+          readOnly: true
+        - mountPath: /var/lib/zabbix/modules
+          name: zabbix-server-claim4
+          readOnly: true
+        - mountPath: /var/lib/zabbix/enc
+          name: zabbix-server-claim5
+          readOnly: true
+        - mountPath: /var/lib/zabbix/ssh_keys
+          name: zabbix-server-claim6
+          readOnly: true
+        - mountPath: /var/lib/zabbix/mibs
+          name: zabbix-server-claim7
+          readOnly: true
+        - mountPath: /var/lib/zabbix/snmptraps
+          name: zabbix-server-claim8
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: MYSQL_USER
+        secret:
+          items:
+          - key: MYSQL_USER
+            path: MYSQL_USER
+          secretName: MYSQL_USER
+      - name: MYSQL_PASSWORD
+        secret:
+          items:
+          - key: MYSQL_PASSWORD
+            path: MYSQL_PASSWORD
+          secretName: MYSQL_PASSWORD
+      - name: MYSQL_ROOT_PASSWORD
+        secret:
+          items:
+          - key: MYSQL_ROOT_PASSWORD
+            path: MYSQL_ROOT_PASSWORD
+          secretName: MYSQL_ROOT_PASSWORD
+      - name: zabbix-server-claim0
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim0
+          readOnly: true
+      - name: zabbix-server-claim1
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim1
+          readOnly: true
+      - name: zabbix-server-claim2
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim2
+          readOnly: true
+      - name: zabbix-server-claim3
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim3
+          readOnly: true
+      - name: zabbix-server-claim4
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim4
+          readOnly: true
+      - name: zabbix-server-claim5
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim5
+          readOnly: true
+      - name: zabbix-server-claim6
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim6
+          readOnly: true
+      - name: zabbix-server-claim7
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim7
+          readOnly: true
+      - name: zabbix-server-claim8
+        persistentVolumeClaim:
+          claimName: zabbix-server-claim8
+          readOnly: true
+status: {}

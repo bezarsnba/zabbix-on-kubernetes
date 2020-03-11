@@ -1,0 +1,322 @@
+## Deployment
+apiVersion:  apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+  labels:
+    zabbix-app: zabbix-server
+  name: zabbix-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      zabbix-app: zabbix-server  
+  serviceName: "zabbix-server"
+  #strategy:
+  #  type: Recreate
+  template:
+    metadata:
+      labels:
+        zabbix-app: zabbix-server
+    spec:
+      containers:
+      - image: zabbix/zabbix-server-mysql:ubuntu-4.4-latest
+        name: zabbix-server
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: zabbix-app
+                key: MYSQL_ROOT_PASSWORD
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                key: MYSQL_DATABASE
+                name: zabbix-app
+
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: zabbix-app
+                key:  MYSQL_USER
+
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: zabbix-app
+                key:  MYSQL_PASSWORD
+        ports:
+        - containerPort: 10051
+#        volumeMounts:
+#          - mountPath: /etc/localtime
+#            name: zabbix-server-claim0
+#            readOnly: true
+#
+#          - mountPath: /etc/timezone
+#            name: zabbix-server-claim1
+#            readOnly: true
+#
+#          - mountPath: /usr/lib/zabbix/alertscripts
+#            name: zabbix-server-claim2
+#            readOnly: true
+#
+#          - mountPath: /usr/lib/zabbix/externalscripts
+#            name: zabbix-server-claim3
+#            readOnly: 
+#
+#          - mountPath: /var/lib/zabbix/modules
+#            name: zabbix-server-claim4
+#            readOnly: 
+#
+#          - mountPath: /var/lib/zabbix/enc
+#            name: zabbix-server-claim5
+#            readOnly: true
+#
+#          - mountPath: /var/lib/zabbix/ssh_keys
+#            name: zabbix-server-claim6
+#            readOnly: true
+#
+#          - mountPath: /var/lib/zabbix/mibs
+#            name: zabbix-server-claim7
+#            readOnly: true
+#
+#          - mountPath: /var/lib/zabbix/snmptraps
+#            name: zabbix-server-claim8
+#            readOnly: true
+      restartPolicy: Always
+      #resources: {}
+#      volumes:
+#        - name: zabbix-server-claim0
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim0
+#            readOnly: true
+#        - name: zabbix-server-claim1
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim1
+#            readOnly: true
+#        - name: zabbix-server-claim2
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim2
+#            readOnly: true
+#        - name: zabbix-server-claim3
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim3
+#            readOnly: true
+#        - name: zabbix-server-claim4
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim4
+#            readOnly: true
+#        - name: zabbix-server-claim5
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim5
+#            readOnly: true
+#        - name: zabbix-server-claim6
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim6
+#            readOnly: true
+#        - name: zabbix-server-claim7
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim7
+#            readOnly: true
+#        - name: zabbix-server-claim8
+#          persistentVolumeClaim:
+#            claimName: zabbix-server-claim8
+#            readOnly: true
+#        - name:  mysql-user
+#        secret:
+#          items:
+#          - key: MYSQL_USER
+#            path: MYSQL_USER
+#          secretName:  mysql-user
+#
+#      - name: mysql-password
+#        secret:
+#          items:
+#          - key: MYSQL_PASSWORD
+#            path: MYSQL_PASSWORD
+#          secretName: mysql-password
+#
+#      - name: mysq-root-password
+#        secret:
+#          items:
+#          - key: MYSQL_ROOT_PASSWORD
+#            path: MYSQL_ROOT_PASSWORD
+#          secretName: mysq-root-password
+#
+
+#status: {}
+
+### PersistentVolumeClain0
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-app: zabbix-server-claim0
+#  name: zabbix-server-claim0
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#### PersistentVolumeClain1
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-app: zabbix-server-claim1
+#  name: zabbix-server-claim1
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#### PersistentVolumeClain2
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-app: zabbix-server-claim2
+#  name: zabbix-server-claim2
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#
+#### PersistentVolumeClain3
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-app: zabbix-server-claim3
+#  name: zabbix-server-claim3
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#### PersistentVolumeClain4
+#
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-app: zabbix-server-claim4
+#  name: zabbix-server-claim4
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#### PersistentVolumeClain5
+#
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-app: zabbix-server-claim5
+#  name: zabbix-server-claim5
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#### PersistentVolumeClain6
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-appe: zabbix-server-claim6
+#  name: zabbix-server-claim6
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#### PersistentVolumeClain7
+#
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-app: zabbix-server-claim7
+#  name: zabbix-server-claim7
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#### PersistentVolumeClain8
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  creationTimestamp: null
+#  labels:
+#    zabbix-app: zabbix-server-claim8
+#  name: zabbix-server-claim8
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 100Mi
+#status: {}
+#
+#### Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    zabbix-app: zabbix-server
+  name: zabbix-server
+spec:
+  ports:
+  - name: "10051"
+    port: 10051
+    targetPort: 10051
+  selector:
+    zabbix-app: zabbix-server
+status:
+  loadBalancer: {}

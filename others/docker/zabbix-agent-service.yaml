@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    com.zabbix.company: Zabbix LLC
+    com.zabbix.component: zabbix-agentd
+    com.zabbix.description: Zabbix agent
+    com.zabbix.os: alpine
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.20.0 (f3d54d784)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: zabbix-agent
+  name: zabbix-agent
+spec:
+  ports:
+  - name: "10050"
+    port: 10050
+    targetPort: 10050
+  selector:
+    io.kompose.service: zabbix-agent
+status:
+  loadBalancer: {}

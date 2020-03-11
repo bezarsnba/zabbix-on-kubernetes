@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    com.zabbix.company: Zabbix LLC
+    com.zabbix.component: zabbix-frontend
+    com.zabbix.dbtype: mysql
+    com.zabbix.description: Zabbix frontend on Nginx web-server with MySQL database
+      support
+    com.zabbix.os: alpine
+    com.zabbix.webserver: nginx
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.20.0 (f3d54d784)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: zabbix-web-nginx-mysql
+  name: zabbix-web-nginx-mysql
+spec:
+  ports:
+  - name: "8081"
+    port: 8081
+    targetPort: 80
+  - name: "8443"
+    port: 8443
+    targetPort: 443
+  selector:
+    io.kompose.service: zabbix-web-nginx-mysql
+status:
+  loadBalancer: {}
