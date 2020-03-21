@@ -1,5 +1,4 @@
-## kubectl create clusterrolebinding cluster-system-anonymous --clusterrole=cluster-admin --user=system:anonymous
-
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
