@@ -38,12 +38,6 @@ spec:
         securityContext:
           privileged: true
         volumeMounts:
-#        - mountPath: /etc/localtime
-#          name: zabbix-agent-claim0
-#          readOnly: true
-#        - mountPath: /etc/timezone
-#          name: zabbix-agent-claim1
-#          readOnly: true
         - mountPath: /etc/zabbix/zabbix_agentd.d
           name: zabbix-agent-claim2
           readOnly: true
@@ -58,14 +52,6 @@ spec:
           readOnly: true
       restartPolicy: Always
       volumes:
-#      - name: zabbix-agent-claim0
-#        persistentVolumeClaim:
-#          claimName: zabbix-agent-claim0
-#          readOnly: true
-#      - name: zabbix-agent-claim1
-#        persistentVolumeClaim:
-#          claimName: zabbix-agent-claim1
-#          readOnly: true
       - name: zabbix-agent-claim2
         persistentVolumeClaim:
           claimName: zabbix-agent-claim2
@@ -102,40 +88,6 @@ spec:
     zabbix-app: zabbix-agent
 status:
   loadBalancer: {}
-
-### PersistentVolumeClain0
-#---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  creationTimestamp: null
-#  labels:
-#    izabbix-app: zabbix-agent-claim0
-#  name: zabbix-agent-claim0
-#spec:
-#  accessModes:
-#  - ReadOnlyMany
-#  resources:
-#    requests:
-#      storage: 100Mi
-#status: {}
-#
-#### PersistentVolumeClain1
-#---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  creationTimestamp: null
-#  labels:
-#    izabbix-app: zabbix-age-claim1
-#  name: zabbix-agent-claim1
-#spec:
-#  accessModes:
-#  - ReadOnlyMany
-#  resources:
-#    requests:
-#      storage: 100Mi
-#status: {}
 
 ### PersistentVolumeClain2
 ---
