@@ -67,27 +67,7 @@ spec:
         name: zabbix-web-nginx-mysql
         ports:
         - containerPort: 80
-#        - containerPort: 443
         resources: {}
-#        volumeMounts:
-#        - mountPath: /etc/localtime
-#          name: zabbix-web-nginx-mysql-claim0
-#          readOnly: true
-#        - mountPath: /etc/timezone
-#          name: zabbix-web-nginx-mysql-claim1
-#          readOnly: true
-#      restartPolicy: Always
-#      volumes:
-#      - name: zabbix-web-nginx-mysql-claim0
-#        persistentVolumeClaim:
-#          claimName: zabbix-web-nginx-mysql-claim0
-#          readOnly: true
-#      - name: zabbix-web-nginx-mysql-claim1
-#        persistentVolumeClaim:
-#          claimName: zabbix-web-nginx-mysql-claim1
-#          readOnly: true
-#status: {}
-#
 ### Service
 
 ---
@@ -111,38 +91,3 @@ spec:
     zabbix-app: zabbix-server
 status:
   loadBalancer: {}
-
-### Persistent Volume Clain1
----
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   creationTimestamp: null
-#   labels:
-#     zabbix-app: zabbix-server-claim0
-#   name: zabbix-web-nginx-mysql-claim0
-# spec:
-#   accessModes:
-#   - ReadOnlyMany
-#   resources:
-#     requests:
-#       storage: 100Mi
-# status: {}
-# 
-# ### PersistentVolumeClain2
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   creationTimestamp: null
-#   labels:
-#     zabbix-app: zabbix-server-claim1
-#   name: zabbix-web-nginx-mysql-claim1
-# spec:
-#   accessModes:
-#   - ReadOnlyMany
-#   resources:
-#     requests:
-#       storage: 100Mi
-# status: {}
-# 
