@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  namespace: monitoring
   creationTimestamp: null
   labels:
     zabbix-app: zabbix-server
@@ -74,6 +75,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: monitoring
   annotations:
   creationTimestamp: null
   labels:
