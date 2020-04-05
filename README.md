@@ -59,10 +59,14 @@ kubectl apply -f zabbix-agent-deployment.yaml
  kubectl apply -f zabbix-frontend.yaml 
 ```
 
-Execute the command to get informations about your enviromennt
+Execute the command to get informations about your enviromennt:
+
 ```
 kubectl get deployment,svc,pods,pvc,ingress  -n monitoring
+
 ```
+
+![Alt text](screenshot/kubernetes-zabbix.png?raw=true "Kubernetes-Zabbix")
 
 ## CADVISOR
 
@@ -73,6 +77,50 @@ kubectl apply -f cadvisor.yaml
 ```
 
 ```
-kubectl get deployment,svc,pods,pvc,ingress  -n cadvisor
+kubectl get deployment,svc,pods,pvc,ingress  -n cadvisor`
+```
+![Alt text](screenshot/cadvisor.png?raw=true "Cadvisor")
+
+
+## Access
+
+To  you access  Zabbix through the Minikube, execute this command:
+
+```
+$ minikube tunnel
+Status:	
+	machine: minikube
+	pid: 4042
+	route: 10.96.0.0/12 -> 172.17.0.2
+	minikube: Running
+	services: []
+    errors: 
+
 ```
 
+After that execute this command to get IP address of the Zabbix Frontend:
+
+```
+$ kubectl get svc  -n monitoring
+...
+zabbix-web-nginx-mysql   ClusterIP   10.103.89.223   <none>        8081/TCP,8443/TCP   18h
+
+```
+
+## Metrics
+
+I created one host at the Zabbix to get metrics Cadvisor
+
+![Alt text](screenshot/metrics-cadvisor-zabbix.png?raw=true "Cadvisor-Zabbix")
+
+
+## Reference
+
+https://www.zabbix.com/documentation/current/manual/config/items/itemtypes/prometheus
+
+https://hub.docker.com/u/zabbix/
+
+https://kubernetes.io/docs/concepts/
+
+
+Thanks, @QuintilianoB for collaborating with the best practices Kubernetes  :)
