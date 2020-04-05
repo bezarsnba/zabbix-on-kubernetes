@@ -45,13 +45,13 @@ kubectl apply -f database-mysql.yaml
 
 5 - Execute the apply to create zabbix-agent
 ```
-kubectl apply -f zabbix-agent-deployment.yaml
+kubectl apply -f zabbix-agent.yaml
 ```
 
 6- Execute the apply to create zabbix-server
 
 ```
- kubectl apply -f zabbix-server-deployment.yaml
+ kubectl apply -f zabbix-server.yaml
 ```
 7 - Execute the apply to create frontend
 
