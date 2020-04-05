@@ -13,10 +13,10 @@
 - clusterRole-monitoring.yaml - Roles do prometheus
 - confimaps.yaml - In this yaml file , contains variables to using to the other files.
 - nampespace.yaml - In this yaml file, contains namespace setup
-- zabbix-agent-deployment.yaml - In this yaml file, contains configuration of the Zabbix Agente, was used  Statefulset, PVC and PV
-- zabbix-db-mysql.yaml -  In this yaml file, contains configuration of the Database MySql, was used  Statefulset, Service, StorageClass, PVC.PV
-- zabbix-server-deployment.yaml - In this yaml file, contains configuration of the Zabbix Server, was used  Statefulset and Service.
-- zabbix-webnginx-deployment.yaml - In this yaml file, contains configuration of the FrontEnd was used  Statefulset and Service.
+- zabbix-agent.yaml - In this yaml file, contains configuration of the Zabbix Agente, was used  Statefulset, PVC and PV
+- database-mysql.yaml  -  In this yaml file, contains configuration of the Database MySql, was used  Statefulset, Service, StorageClass, PVC.PV
+- zabbix-server.yaml - In this yaml file, contains configuration of the Zabbix Server, was used  Statefulset and Service.
+- zabbix-frontend.yaml  - In this yaml file, contains configuration of the FrontEnd was used  Statefulset and Service.
 
 
 # Step by Step
