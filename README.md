@@ -15,10 +15,9 @@
 | [confimaps.yaml](./confimaps.yaml) | Non confidential variables with data used in many files | [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/)
 | [nampespace.yaml](./nampespace.yaml) | Namespace configuration |[Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)|
 | [zabbix-agent.yaml](zabbix-agent.yaml) | Configuration of Zabbix Agent | [Statefulsets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/), [PVC and PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) |
-
-- database-mysql.yaml  -  In this yaml file, contains configuration of the Database MySql, was used  Statefulset, Service, StorageClass, PVC.PV
-- zabbix-server.yaml - In this yaml file, contains configuration of the Zabbix Server, was used  Statefulset and Service.
-- zabbix-frontend.yaml  - In this yaml file, contains configuration of the FrontEnd was used  Statefulset and Service.
+| [database-mysql.yaml](./database-mysql.yaml) |Database configuration | [Statefulsets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/), [PVC and PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/), [Service](https://kubernetes.io/docs/concepts/services-networking/service/), [StorageClass](https://kubernetes.io/docs/concepts/storage/storage-classes/) |
+| [zabbix-server.yaml](./zabbix-server.yaml) | Zabbix server configuration | [Statefulsets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) and [Service](https://kubernetes.io/docs/concepts/services-networking/service/) |
+| [zabbix-frontend.yaml](./zabbix-frontend.yaml) | Frontend configuration | [Statefulsets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) and [Service](https://kubernetes.io/docs/concepts/services-networking/service/) |
 
 
 # Step by Step
