@@ -1,13 +1,16 @@
 ## Introduction
 
-- In this repository contains files necessary to provisioning Zabbix in Kubernetes through Minikube
+- In this repository contains files necessary to provisioning Zabbix in Kubernetes
 
-# Pre requisito
+# Pre requirements
 
-- Minikube v1.9.1
-- Kubernetes v1.18.0 
+- Kubernetes (Used version: v1.18.0)
 
 # File structure
+
+| File			| Content |
+| ------------- | ------- |
+| cadvisor.yaml | Configuration to get and export monitoring metrics of [cAdvisor](https://prometheus.io/docs/guides/cadvisor/) |
 
 - cadvisor.yaml - In this file contains configurantion to monitoring and export metrics of the CADVISOR
 - clusterRole-monitoring.yaml - Roles do prometheus
