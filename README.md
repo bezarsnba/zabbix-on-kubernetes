@@ -8,15 +8,14 @@
 
 # File structure
 
-| File			| Content |
-| ------------- | ------- |
-| cadvisor.yaml | Configuration to get and export monitoring metrics of [cAdvisor](https://prometheus.io/docs/guides/cadvisor/) |
+| File			| Content | Resources |
+| ------------- | ------- | --------- |
+| [cadvisor.yaml](./cadvisor.yaml) | Configuration to get and export monitoring metrics of [cAdvisor](https://prometheus.io/docs/guides/cadvisor/) ||
+| [clusterRole-monitoring.yaml](./clusterRole-monitoring.yaml) | Prometheus roles ||
+| [confimaps.yaml](./confimaps.yaml) | Non confidential variables with data used in many files | [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/)
+| [nampespace.yaml](./nampespace.yaml) | Namespace configuration |[Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)|
+| [zabbix-agent.yaml](zabbix-agent.yaml) | Configuration of Zabbix Agent | [Statefulsets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/), [PVC and PV](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) |
 
-- cadvisor.yaml - In this file contains configurantion to monitoring and export metrics of the CADVISOR
-- clusterRole-monitoring.yaml - Roles do prometheus
-- confimaps.yaml - In this yaml file , contains variables to using to the other files.
-- nampespace.yaml - In this yaml file, contains namespace setup
-- zabbix-agent.yaml - In this yaml file, contains configuration of the Zabbix Agente, was used  Statefulset, PVC and PV
 - database-mysql.yaml  -  In this yaml file, contains configuration of the Database MySql, was used  Statefulset, Service, StorageClass, PVC.PV
 - zabbix-server.yaml - In this yaml file, contains configuration of the Zabbix Server, was used  Statefulset and Service.
 - zabbix-frontend.yaml  - In this yaml file, contains configuration of the FrontEnd was used  Statefulset and Service.
