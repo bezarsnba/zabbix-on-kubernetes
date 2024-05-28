@@ -86,3 +86,19 @@ spec:
     requests:
       storage: 100Mi
 status: {}
+### PersistentVolume
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  namespace: monitoring
+  name: zabbix-agent-pv
+  labels:
+    zabbix-app: zabbix-agent
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadOnlyMany
+  hostPath:
+    path: /data/zabbix-agent
